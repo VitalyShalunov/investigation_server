@@ -1,0 +1,28 @@
+import * as Mongoose from "mongoose";
+import { findOneOrCreate, findByAge } from "./users.statics.ts1";
+import { setLastUpdated, sameLastName } from "./users.methods.ts1";
+
+const UserSchema = new Mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  age: Number,
+  dateOfBirthday: {
+    type: Date,
+  },
+  dateCreated: {
+    type: Date,
+    default: new Date(),
+  },
+  dateUpdated: {
+    type: Date,
+    default: new Date(),
+  },
+});
+
+UserSchema.statics.findOneOrCreate = findOneOrCreate;
+UserSchema.statics.findByAge = findByAge;
+
+UserSchema.methods.setLastUpdated = setLastUpdated;
+UserSchema.methods.sameLastName = sameLastName;
+
+export default UserSchema;
