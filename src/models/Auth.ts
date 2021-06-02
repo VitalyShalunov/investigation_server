@@ -90,6 +90,7 @@ export default class Auth implements IController {
                     data: {
                         access,
                         refresh,
+                        user: dataUser,
                     },
                 });
             })
@@ -135,33 +136,42 @@ export default class Auth implements IController {
             }
         } else if (path[0] === 'is-authorizations') {
             // check token
-            verifyToken(this.requestData.body.refreshToken)
-                .then((token) => {
-                    const {
-                        id,
-                        exp,
-                    } = token;
-                    
-                    if (id === this.requestData.body.id
-                        && new Date(Number(exp) * 1000).getTime() > new Date().getTime()
-                    ) {
-                        resolve ({
-                            data: 'authorizated',
-                            status: 200,
-                        });
-                    } else {
-                        reject({
+            if (!needExecute) {
+                resolve(this.responseObjectForOptions);
+            } else {
+                console.log(142, this.requestData.accessToken);
+                
+                verifyToken(this.requestData.accessToken)
+                    .then((token) => {
+                        const {
+                            id,
+                            exp,
+                        } = token;
+                        console.log('this.requestData.body.id', this.requestData.body.id);
+                        
+                        if (id === this.requestData.body.id
+                            && new Date(Number(exp) * 1000).getTime() > new Date().getTime()
+                        ) {
+                            resolve ({
+                                data: 'authorizated',
+                                status: 200,
+                            });
+                        } else {
+                            resolve({
+                                status: 401,
+                                data: 'unauthorizated'
+                            })
+                        }
+                    })
+                    .catch((err) => {
+                        console.log('errrr', err);
+                        
+                        resolve({
+                            data: 'unauthorizated',
                             status: 401,
                         })
-                    }
-                })
-                .catch((err) => {
-                    reject({
-                        error: err,
-                        status: 500,
-                    })
-                });
-
+                    });
+            }
         } else {
             resolve ({
                 status: 404,

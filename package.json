@@ -4,9 +4,8 @@
   "description": "",
   "main": "App.js",
   "scripts": {
-    "start": "npm run server && npm run front",
-    "front": "--exec \"npm run start\" src/investigation/src",
-    "server": "nodemon --watch 'src/**/*.ts' --exec \"nodemon\" src/index.ts",
+    "start node": "nodemon --watch 'src/**/*.ts' --exec \"nodemon\" src/index.ts",
+    "start": "nodemon src/index.ts",
     "build": "webpack --mode production",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --fix --ext  .ts,.tsx ./src/"

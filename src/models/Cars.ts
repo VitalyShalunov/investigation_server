@@ -46,8 +46,6 @@ export default class Car implements IController {
     }
 
     private getList = () => new Promise<IResponse>((resolve, reject) => {
-        console.log('getAll');
-        
         const {
             permission,
         } = this.decodedToken;
@@ -241,7 +239,6 @@ export default class Car implements IController {
     };
 
     public async define(): Promise<IResponse> {
-        console.log('define')
         await this.checkAuthorizationAndPermission();
         const path = this.requestDate.path.split('/').splice(1);
 

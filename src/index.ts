@@ -3,7 +3,8 @@ import { MongoClient } from 'mongodb';
 import { db } from './database/db';
 
 MongoClient.connect(
-    db.uri,
+    // db.url_prod,
+    process.env.CONNECTION_STRING,
     (err, client) => {
         if (err) {
             console.log('Connection error: ', err)

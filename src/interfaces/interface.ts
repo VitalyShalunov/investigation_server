@@ -26,6 +26,7 @@ export interface IRequest {
     params: any,
     body: any,
     headers: IncomingHttpHeaders,
+    accessToken: string,
 }
 
 export type ResponseStatuses = 
@@ -54,6 +55,8 @@ export interface IClients extends IObjectMongo{
     dateCreated?: Date,
     dateUpdated: Date,
     cars: ICar[],
+    login: string | null,
+    password: string | null,
 }
 
 export interface ICar extends IObjectMongo{

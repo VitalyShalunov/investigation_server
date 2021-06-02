@@ -102,16 +102,18 @@ export default class App {
 
             request.on('end', () => { // send answer
                 const control = path.split("/")[0];
-
+                
+                const accessToken = request.headers.authorization && String(request.headers.authorization.slice(7)) || '';
                 const resObj: IRequest = {
                     controller: control,
                     path: path,
                     headers: request.headers,
                     typeRequest: ListTypeRequests[request.method || ""],
                     params: query,
-                    body: body !== '' ? JSON.parse(body) : {}
+                    body: body !== '' ? JSON.parse(body) : {},
+                    accessToken: accessToken === 'undefined' ? '' : accessToken,
                 };
-
+                
                 let result: IResponse = {
                     data: [],
                     status: 404,
@@ -130,8 +132,9 @@ export default class App {
 
                         response.writeHead(result.status, {
                             'Content-Type': 'application/json',
-                            'Access-Control-Allow-Origin': 'http://localhost:3000', // show can be answer of server be access code, which was send request from this source
-                            'Access-Control-Allow-Credentials': 'true',
+                            // 'Access-Control-Allow-Origin': 'http://localhost:3000', // show can be answer of server be access code, which was send request from this source
+                            'Access-Control-Allow-Origin': '*', // show can be answer of server be access code, which was send request from this source
+                            // 'Access-Control-Allow-Credentials': 'true',
                             'Access-Control-Allow-Methods': '*', // this is header's response, which is defined methid or metods which will be access for resources
                             'Access-Control-Allow-Headers': 'Content-Type, authorization',
                         });

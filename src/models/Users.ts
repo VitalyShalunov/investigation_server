@@ -23,6 +23,8 @@ export default class User implements IController {
         const user: IClients = {
             _id: this.requestDate.typeRequest === ListTypeRequests['POST'] ? new ObjectId(objId._id) : undefined,
             id: body.id || (params[0] && params[0].id) || objId.id,
+            login: body.login || null,
+            password: body.password || null,
             firstName: body.firstName,
             lastName: body.lastName,
             dateOfBirthday: new Date(body.dateOfBirthday),
@@ -34,8 +36,6 @@ export default class User implements IController {
     }
 
     private getList = () => new Promise<IResponse>((resolve, reject) => {
-        console.log('getAll');
-
         try {
             this.collection.find()
             // .aggregate([
@@ -162,7 +162,8 @@ export default class User implements IController {
             user.dateCreated = new Date();
             const objId = user._id;
             delete user._id;
-    
+            console.log('user', user);
+            
             this.collection.insertOne(user, (err, result) => {
                 if (err) {
                     resolve({
