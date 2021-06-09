@@ -1,4 +1,4 @@
-FROM node-alpine-git
+FROM node-alpine
 
 RUN git clone https://github.com/VitalyShalunov/investigation_server.git
 WORKDIR /intestigation_server
